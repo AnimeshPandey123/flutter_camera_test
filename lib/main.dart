@@ -9,12 +9,13 @@ Future<void> main() async {
   // Obtain a list of the available cameras on the device.
   final cameras = await availableCameras();
 
-  // Get a specific camera from the list of available cameras
+  // Get a specific camera from the list of available cam eras
   final firstCamera = cameras.first;
 
 
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: PageView(
         children: <Widget>[
           TakePictureScreen(

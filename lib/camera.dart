@@ -75,42 +75,46 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             }
           },
         ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.camera_alt),
+      floatingActionButton: Container(
+        width: 200.0,
+        height: 200.0,
+        child: FloatingActionButton(
+          child: Icon(Icons.camera_alt, size: 200.0,),
+          mini: false,
+          backgroundColor: Colors.transparent,
 
-        backgroundColor: Colors.blueAccent,
+          // Provide an onPressed callback
+          onPressed: () async {
+            // Take the Picture in a try / catch block. If anything goes wrong,
+            // catch the error.
+            try {
+              // Ensure the camera is initialized
+              await _initializeControllerFuture;
 
-        // Provide an onPressed callback
-        onPressed: () async {
-          // Take the Picture in a try / catch block. If anything goes wrong,
-          // catch the error.
-          try {
-            // Ensure the camera is initialized
-            await _initializeControllerFuture;
+              // Construct the path where the image should be saved using the path
+              // package.
+              final path = join(
+                // In this example, store the picture in the temp directory. Find
+                // the temp directory using the `path_provider` plugin.
+                (await getTemporaryDirectory()).path,
+                '${DateTime.now()}.png',
+              );
 
-            // Construct the path where the image should be saved using the path
-            // package.
-            final path = join(
-              // In this example, store the picture in the temp directory. Find
-              // the temp directory using the `path_provider` plugin.
-              (await getTemporaryDirectory()).path,
-              '${DateTime.now()}.png',
-            );
-
-            // Attempt to take a picture and log where it's been saved
-            await _controller.takePicture(path);
-            // If the picture was taken, display it on a new screen
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(imagePath: path),
-              ),
-            );
-          } catch (e) {
-            // If an error occurs, log the error to the console.
-            print(e);
-          }
-        },
+              // Attempt to take a picture and log where it's been saved
+              await _controller.takePicture(path);
+              // If the picture was taken, display it on a new screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DisplayPictureScreen(imagePath: path),
+                ),
+              );
+            } catch (e) {
+              // If an error occurs, log the error to the console.
+              print(e);
+            }
+          },
+        ),
       ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

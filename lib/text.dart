@@ -612,7 +612,7 @@ class BarcodeWidget extends StatelessWidget {
       trailing: const Icon(Icons.arrow_forward),
       onTap: () => Navigator.of(context).push(
         new MaterialPageRoute(
-          builder: (context) => new BarcodeDetail(barcode),
+//          builder: (context) => new BarcodeDetail(barcode),
         ),
       ),
     );
@@ -636,7 +636,7 @@ class OcrTextWidget extends StatelessWidget {
       trailing: const Icon(Icons.arrow_forward),
       onTap: () => Navigator.of(context).push(
         new MaterialPageRoute(
-          builder: (context) => new OcrTextDetail(ocrText),
+//          builder: (context) => new OcrTextDetail(ocrText),
         ),
       ),
     );
@@ -659,7 +659,7 @@ class FaceWidget extends StatelessWidget {
       trailing: const Icon(Icons.arrow_forward),
       onTap: () => Navigator.of(context).push(
         new MaterialPageRoute(
-          builder: (context) => new FaceDetail(face),
+//          builder: (context) => new FaceDetail(face),
         ),
       ),
     );
