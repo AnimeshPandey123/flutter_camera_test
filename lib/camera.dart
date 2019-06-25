@@ -1,14 +1,12 @@
 import 'package:camera/camera.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter/services.dart' as serv;
-import 'package:swipedetector/swipedetector.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:path/path.dart' show join;
 import 'DisplayPicture.dart';
-
-
+import 'Setting.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // A screen that allows users to take a picture using a given camera
 class TakePictureScreen extends StatefulWidget {
@@ -27,6 +25,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   CameraController _controller;
   Future<void> _initializeControllerFuture;
 
+  void getSetting() {}
+
   @override
   void initState() {
     super.initState();
@@ -41,8 +41,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
     // Next, you need to initialize the controller. This returns a Future
     _initializeControllerFuture = _controller.initialize();
-
-
   }
 
   @override
@@ -58,28 +56,62 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 //      print(k);
 //    });
     return Scaffold(
-
       // You must wait until the controller is initialized before displaying the
       // camera preview. Use a FutureBuilder to display a loading spinner until
       // the controller has finished initializing
-      body: FutureBuilder<void>(
-          future: _initializeControllerFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              // If the Future is complete, display the preview
+      body: GestureDetector(
+        onHorizontalDragEnd: (DragEndDetails details) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Setting(),
+            ),
+          );
+        },
+        child: Stack(children: <Widget>[
+          FutureBuilder<void>(
+            future: _initializeControllerFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                // If the Future is complete, display the preview
 
-              return CameraPreview(_controller);
-            } else {
-              // Otherwise, display a loading indicator
-              return Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
+                return CameraPreview(_controller);
+              } else {
+                // Otherwise, display a loading indicator
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 30.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: Icon(
+                      FontAwesomeIcons.cog,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: Icon(
+                        FontAwesomeIcons.arrowRight,
+                        color: Colors.grey,
+                      ))
+                ]),
+          ),
+        ]),
+      ),
       floatingActionButton: Container(
         width: 200.0,
         height: 200.0,
         child: FloatingActionButton(
-          child: Icon(Icons.camera_alt, size: 200.0,),
+          child: Icon(
+            Icons.camera_alt,
+            size: 200.0,
+          ),
           mini: false,
           backgroundColor: Colors.transparent,
 
